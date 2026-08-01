@@ -1,0 +1,70 @@
+type ContactSectionProps = {
+  copy: {
+    kicker: string;
+    title: string;
+    body: string;
+    response: string;
+    cta: string;
+    links: { label: string; value: string; href: string }[];
+  };
+};
+
+export function ContactSection({ copy }: ContactSectionProps) {
+  const emailLink = copy.links.find((link) => link.label === "Email")?.href ?? "#";
+
+  return (
+    <section
+      id="contact"
+      className="relative z-10 border-t border-[var(--line)] bg-black px-5 py-16 sm:px-8"
+    >
+      <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1fr_0.9fr]">
+        <div>
+          <p className="tech-display text-sm font-black text-[var(--red-hot)]">
+            &gt; {copy.kicker}
+          </p>
+          <h2 className="mt-4 max-w-3xl text-3xl font-semibold leading-tight text-[var(--foreground)] sm:text-5xl">
+            {copy.title}
+          </h2>
+          <p className="mt-6 max-w-2xl text-base leading-8 text-[var(--muted)]">
+            {copy.body}
+          </p>
+          <a
+            href={emailLink}
+            className="tech-display mt-9 inline-flex h-12 items-center border border-[var(--red-active)] bg-[var(--red-root)] px-5 text-sm font-black text-[var(--foreground)] transition hover:bg-[var(--red-active)]"
+          >
+            {copy.cta} <span className="ml-3">-&gt;</span>
+          </a>
+        </div>
+
+        <div className="border-y border-[var(--line)]">
+          <p className="tech-display border-b border-[var(--line)] py-4 text-xs font-black uppercase text-[var(--dim)]">
+            ~/contact.channels
+          </p>
+          <ul className="divide-y divide-[var(--line)]">
+            {copy.links.map((link) => (
+              <li key={link.label}>
+                <a
+                  href={link.href}
+                  target={link.href.startsWith("http") ? "_blank" : undefined}
+                  rel={link.href.startsWith("http") ? "noreferrer" : undefined}
+                  className="grid gap-2 py-5 transition hover:bg-[rgba(90,17,24,0.16)] sm:grid-cols-[120px_1fr_auto]"
+                >
+                  <span className="tech-display text-xs font-black uppercase text-[var(--red-hot)]">
+                    {link.label}
+                  </span>
+                  <span className="text-sm text-[var(--muted)]">{link.value}</span>
+                  <span className="tech-display text-xs font-black text-[var(--red-hot)]">
+                    open -&gt;
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+          <p className="tech-display border-t border-[var(--line)] py-4 text-xs text-[var(--dim)]">
+            {copy.response}
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
