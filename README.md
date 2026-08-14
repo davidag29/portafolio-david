@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# David Aguilar — Portfolio
 
-## Getting Started
+Portafolio personal construido con Next.js. Presenta proyectos destacados, stack técnico y datos de contacto, con soporte bilingüe (ES/EN).
 
-First, run the development server:
+🔗 **Live demo:** _agrega aquí la URL de Vercel una vez desplegado_
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Stack
+
+- [Next.js](https://nextjs.org) 16 (App Router, Turbopack)
+- [React](https://react.dev) 19
+- [TypeScript](https://www.typescriptlang.org)
+- [Tailwind CSS](https://tailwindcss.com) 4
+
+## Estructura
+
+```
+src/
+├── app/                  # Rutas, layout y estilos globales
+├── components/           # Hero, Navbar, ProjectShowcase, StackSection, ContactSection...
+└── content/portfolio.ts  # Contenido del portafolio (copy ES/EN, proyectos, links)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Todo el texto visible (proyectos, bio, links de contacto) vive en [`src/content/portfolio.ts`](src/content/portfolio.ts), separado de los componentes visuales — para actualizar el contenido no hace falta tocar el diseño.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Desarrollo local
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm install
+npm run dev
+```
 
-## Learn More
+Abre [http://localhost:3000](http://localhost:3000).
 
-To learn more about Next.js, take a look at the following resources:
+## Scripts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Comando         | Descripción                        |
+| --------------- | ----------------------------------- |
+| `npm run dev`   | Servidor de desarrollo               |
+| `npm run build` | Build de producción                  |
+| `npm run start` | Sirve el build de producción         |
+| `npm run lint`  | Linter (ESLint)                      |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deploy
 
-## Deploy on Vercel
+Desplegado en [Vercel](https://vercel.com). Cada push a `main` dispara un nuevo deploy automáticamente.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Contacto
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Email: [daglr029@gmail.com](mailto:daglr029@gmail.com)
+- GitHub: [github.com/davidag29](https://github.com/davidag29)
+- LinkedIn: [linkedin.com/in/davidaguilar-rdz](https://www.linkedin.com/in/davidaguilar-rdz)
