@@ -20,7 +20,7 @@ export function StackSection({ copy }: StackSectionProps) {
           {copy.body}
         </h2>
       </div>
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {copy.groups.map((group) => (
           <div key={group.label} className="border-l border-[var(--line-strong)] pl-5">
             <h3 className="tech-display text-sm font-black uppercase text-[var(--red-hot)]">

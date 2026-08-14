@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { portfolioCopy, type Locale } from "@/content/portfolio";
 import { CodeCascade } from "./CodeCascade";
 import { ContactSection } from "./ContactSection";
+import { ExperienceSection } from "./ExperienceSection";
 import { Hero } from "./Hero";
 import { Navbar } from "./Navbar";
 import { ProjectShowcase } from "./ProjectShowcase";
@@ -27,6 +28,7 @@ export function PortfolioShell() {
       <CodeCascade columns={copy.codeColumns} />
       <ProjectShowcase copy={copy.projects} />
       <StackSection copy={copy.stack} />
+      <ExperienceSection copy={copy.experience} />
       <ContactSection copy={copy.contact} />
     </main>
   );

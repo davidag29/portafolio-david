@@ -22,6 +22,19 @@ export const metadata: Metadata = {
   title: "David Aguilar | Desarrollador Full Stack",
   description:
     "Portafolio de David Aguilar, desarrollador Full Stack enfocado en productos web rapidos, mantenibles y orientados a problemas reales.",
+  openGraph: {
+    title: "David Aguilar | Desarrollador Full Stack",
+    description:
+      "Portafolio de David Aguilar, desarrollador Full Stack con experiencia en PHP/Laravel, Node.js e IA aplicada.",
+    type: "website",
+    locale: "es_MX",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "David Aguilar | Desarrollador Full Stack",
+    description:
+      "Portafolio de David Aguilar, desarrollador Full Stack con experiencia en PHP/Laravel, Node.js e IA aplicada.",
+  },
 };
 
 export default function RootLayout({

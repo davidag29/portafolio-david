@@ -9,6 +9,13 @@ export type Project = {
   demoLabel: string;
 };
 
+export type ExperienceItem = {
+  role: string;
+  company: string;
+  period: string;
+  highlight: string;
+};
+
 type PortfolioCopy = {
   nav: {
     projects: string;
@@ -43,6 +50,11 @@ type PortfolioCopy = {
     body: string;
     groups: { label: string; items: string[] }[];
   };
+  experience: {
+    kicker: string;
+    title: string;
+    items: ExperienceItem[];
+  };
   contact: {
     kicker: string;
     title: string;
@@ -65,8 +77,8 @@ export const portfolioCopy: Record<Locale, PortfolioCopy> = {
     hero: {
       eyebrow: "const developer = 'builder'",
       name: "David Aguilar",
-      role: "Desarrollador Full Stack",
-      body: "Construyo productos web rapidos, mantenibles y enfocados en resolver problemas reales.",
+      role: "Full Stack · Laravel/Node.js · IA aplicada",
+      body: "5+ anos construyendo aplicaciones web, APIs y sistemas empresariales con PHP/Laravel y Node.js. Aplico IA (MCP, agentes, OCR) bajo reglas de arquitectura, seguridad y calidad, no como moda.",
       primaryCta: "Ver proyectos",
       secondaryCta: "Hablemos",
       location: "CDMX, Mexico | UTC-6",
@@ -103,27 +115,27 @@ export const portfolioCopy: Record<Locale, PortfolioCopy> = {
       items: [
         {
           id: "01",
-          name: "FinTrack",
-          problem: "Control financiero disperso para freelancers.",
-          solution: "Dashboard de ingresos, egresos y reportes accionables.",
-          stack: ["Next.js", "PostgreSQL", "Tailwind"],
-          demoLabel: "Ver demo",
+          name: "Centro de notificaciones multicanal",
+          problem: "Gestion y despacho de notificaciones disperso entre multiples microservicios.",
+          solution: "Servicio core con colas de trabajo, envio por email/WhatsApp y actualizacion en tiempo real con Laravel Reverb.",
+          stack: ["Laravel", "PostgreSQL", "Redis"],
+          demoLabel: "Detalles",
         },
         {
           id: "02",
-          name: "Shiply",
-          problem: "Gestion manual de envios para e-commerce.",
-          solution: "Flujo operativo con estados, alertas y trazabilidad.",
-          stack: ["React", "Prisma", "Redis"],
-          demoLabel: "Ver demo",
+          name: "ERP contable multi-tenant",
+          problem: "Facturacion, inventario y reportes fiscales gestionados de forma manual.",
+          solution: "API RESTful multi-tenant con roles y permisos, y reportes financieros automatizados.",
+          stack: ["Node.js", "Express", "SQL Server"],
+          demoLabel: "Detalles",
         },
         {
           id: "03",
-          name: "Panelly",
-          problem: "Metricas sin contexto para equipos pequenos.",
-          solution: "Panel de analiticas con filtros y vistas por rol.",
-          stack: ["Node.js", "Socket.io", "ClickHouse"],
-          demoLabel: "Ver demo",
+          name: "Sistema de citas RIS",
+          problem: "Agenda manual para una clinica de radiologia, sin trazabilidad de citas.",
+          solution: "Sistema de gestion de citas con seguimiento de estados para el area de radiologia.",
+          stack: ["JavaServer Faces", "SQL"],
+          demoLabel: "Detalles",
         },
       ],
     },
@@ -131,9 +143,39 @@ export const portfolioCopy: Record<Locale, PortfolioCopy> = {
       title: "Stack base",
       body: "Base preparada para cambiar contenido sin tocar el sistema visual.",
       groups: [
-        { label: "Frontend", items: ["Next.js", "React", "TypeScript", "Tailwind CSS"] },
-        { label: "Backend", items: ["Node.js", "APIs REST", "PostgreSQL", "Prisma"] },
-        { label: "Deploy", items: ["Vercel", "GitHub Actions", "Observabilidad"] },
+        { label: "Backend", items: ["PHP", "Laravel", "Blade", "Node.js", "Express", "PostgreSQL", "MySQL", "SQL Server"] },
+        { label: "Arquitectura", items: ["APIs REST", "Microservicios", "Multi-tenant", "Colas de trabajo", "Tiempo real", "Redis", "Docker"] },
+        { label: "IA & Agentes", items: ["OpenAI", "DeepSeek", "MCP", "Sistemas multiagente", "OCR", "Ingenieria asistida por IA"] },
+      ],
+    },
+    experience: {
+      kicker: "Experiencia",
+      title: "Trayectoria en desarrollo Full Stack y sistemas empresariales.",
+      items: [
+        {
+          role: "Desarrollador Full Stack",
+          company: "RRHH Ingenia",
+          period: "11/2025 - Actualidad",
+          highlight: "Centro de notificaciones multiproyecto sobre microservicios; integraciones de IA (OpenAI, DeepSeek) con MCP y sistemas multiagente.",
+        },
+        {
+          role: "Desarrollador",
+          company: "NextGen Technologies",
+          period: "05/2022 - 05/2025",
+          highlight: "ERP contable con API RESTful multi-tenant en Node.js/Express; sistema de gestion para gasolinera con facturacion automatica.",
+        },
+        {
+          role: "Desarrollador Junior",
+          company: "DC Prosoft S.A. de C.V.",
+          period: "01/2021 - 04/2022",
+          highlight: "Sistema de certificacion educativa con JSF y sistema de gestion de citas para clinica de radiologia (RIS).",
+        },
+        {
+          role: "Soporte tecnico",
+          company: "DC Prosoft S.A. de C.V.",
+          period: "03/2019 - 01/2021",
+          highlight: "Atencion a usuarios, capacitacion funcional y seguimiento de incidencias operativas.",
+        },
       ],
     },
     contact: {
@@ -172,8 +214,8 @@ export const portfolioCopy: Record<Locale, PortfolioCopy> = {
     hero: {
       eyebrow: "const developer = 'builder'",
       name: "David Aguilar",
-      role: "Full Stack Developer",
-      body: "I build fast, maintainable web products focused on solving real user problems.",
+      role: "Full Stack · Laravel/Node.js · Applied AI",
+      body: "5+ years building web applications, APIs, and enterprise systems with PHP/Laravel and Node.js. I apply AI (MCP, agents, OCR) under architecture, security, and quality rules, not as a trend.",
       primaryCta: "View projects",
       secondaryCta: "Contact",
       location: "Mexico City, Mexico | UTC-6",
@@ -205,27 +247,27 @@ export const portfolioCopy: Record<Locale, PortfolioCopy> = {
       items: [
         {
           id: "01",
-          name: "FinTrack",
-          problem: "Scattered financial control for freelancers.",
-          solution: "Income, expense, and reporting dashboard.",
-          stack: ["Next.js", "PostgreSQL", "Tailwind"],
-          demoLabel: "View demo",
+          name: "Multichannel notification hub",
+          problem: "Notification management and dispatch scattered across multiple microservices.",
+          solution: "Core service with job queues, email/WhatsApp delivery, and real-time updates via Laravel Reverb.",
+          stack: ["Laravel", "PostgreSQL", "Redis"],
+          demoLabel: "Details",
         },
         {
           id: "02",
-          name: "Shiply",
-          problem: "Manual shipping operations for e-commerce.",
-          solution: "Operational workflow with status, alerts, and traceability.",
-          stack: ["React", "Prisma", "Redis"],
-          demoLabel: "View demo",
+          name: "Multi-tenant accounting ERP",
+          problem: "Invoicing, inventory, and tax reporting handled manually.",
+          solution: "Multi-tenant RESTful API with roles/permissions and automated financial reporting.",
+          stack: ["Node.js", "Express", "SQL Server"],
+          demoLabel: "Details",
         },
         {
           id: "03",
-          name: "Panelly",
-          problem: "Metrics without context for small teams.",
-          solution: "Analytics panel with filters and role-based views.",
-          stack: ["Node.js", "Socket.io", "ClickHouse"],
-          demoLabel: "View demo",
+          name: "RIS appointment system",
+          problem: "Manual scheduling for a radiology clinic, with no appointment traceability.",
+          solution: "Appointment management system with status tracking for the radiology department.",
+          stack: ["JavaServer Faces", "SQL"],
+          demoLabel: "Details",
         },
       ],
     },
@@ -233,9 +275,39 @@ export const portfolioCopy: Record<Locale, PortfolioCopy> = {
       title: "Core stack",
       body: "A base prepared to swap content without touching the visual system.",
       groups: [
-        { label: "Frontend", items: ["Next.js", "React", "TypeScript", "Tailwind CSS"] },
-        { label: "Backend", items: ["Node.js", "REST APIs", "PostgreSQL", "Prisma"] },
-        { label: "Deploy", items: ["Vercel", "GitHub Actions", "Observability"] },
+        { label: "Backend", items: ["PHP", "Laravel", "Blade", "Node.js", "Express", "PostgreSQL", "MySQL", "SQL Server"] },
+        { label: "Architecture", items: ["REST APIs", "Microservices", "Multi-tenant", "Job queues", "Real-time", "Redis", "Docker"] },
+        { label: "AI & Agents", items: ["OpenAI", "DeepSeek", "MCP", "Multi-agent systems", "OCR", "AI-assisted engineering"] },
+      ],
+    },
+    experience: {
+      kicker: "Experience",
+      title: "Track record in Full Stack development and enterprise systems.",
+      items: [
+        {
+          role: "Full Stack Developer",
+          company: "RRHH Ingenia",
+          period: "11/2025 - Present",
+          highlight: "Multi-project notification hub on microservices; AI integrations (OpenAI, DeepSeek) via MCP and multi-agent systems.",
+        },
+        {
+          role: "Developer",
+          company: "NextGen Technologies",
+          period: "05/2022 - 05/2025",
+          highlight: "Accounting ERP with multi-tenant RESTful API in Node.js/Express; gas station management system with automated invoicing.",
+        },
+        {
+          role: "Junior Developer",
+          company: "DC Prosoft S.A. de C.V.",
+          period: "01/2021 - 04/2022",
+          highlight: "Educational certification system with JSF and appointment management system for a radiology clinic (RIS).",
+        },
+        {
+          role: "Technical Support",
+          company: "DC Prosoft S.A. de C.V.",
+          period: "03/2019 - 01/2021",
+          highlight: "User support, functional training, and follow-up on operational incidents.",
+        },
       ],
     },
     contact: {

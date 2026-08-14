@@ -45,6 +45,7 @@ export function Navbar({ availability, localeLabel, nav, onToggleLocale }: Navba
           <button
             type="button"
             onClick={onToggleLocale}
+            aria-label="Cambiar idioma"
             className="tech-display h-10 min-w-12 border border-[var(--line-strong)] px-3 text-xs font-black text-[var(--foreground)] transition hover:border-[var(--red-hot)] hover:bg-[var(--red-root)]"
           >
             {localeLabel}
