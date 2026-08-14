@@ -46,6 +46,5 @@ Desplegado en [Vercel](https://vercel.com). Cada push a `main` dispara un nuevo 
 
 ## Contacto
 
-- Email: [daglr029@gmail.com](mailto:daglr029@gmail.com)
-- GitHub: [github.com/davidag29](https://github.com/davidag29)
-- LinkedIn: [linkedin.com/in/davidaguilar-rdz](https://www.linkedin.com/in/davidaguilar-rdz)
+[![GitHub](https://img.shields.io/badge/GitHub-davidag29-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/davidag29)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-davidaguilar--rdz-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/davidaguilar-rdz)
