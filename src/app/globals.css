@@ -1,18 +1,35 @@
 @import "tailwindcss";
 
 :root {
-  --background: #000000;
-  --foreground: #f4f1ed;
-  --muted: #9a9290;
-  --dim: #575052;
-  --line: #252022;
-  --line-strong: #3c2529;
-  --panel: #050505;
-  --panel-soft: #090708;
-  --red-root: #5a1118;
-  --red-active: #7a1e26;
-  --red-hot: #b33a3f;
-  --amber: #c08a45;
+  --background: #12161b;
+  --foreground: #eef1f0;
+  --muted: #93a0a3;
+  --dim: #5a6569;
+  --line: #232a30;
+  --line-strong: #34404a;
+  --panel: #0d1013;
+  --panel-soft: #171c21;
+  --red-root: #16324a;
+  --red-active: #2f5f8a;
+  --red-hot: #4f9fe0;
+  --amber: #c98a4b;
+  --nav-backdrop: rgba(18, 22, 27, 0.82);
+}
+
+:root[data-theme="light"] {
+  --background: #eef2f5;
+  --foreground: #101418;
+  --muted: #55636b;
+  --dim: #8a959c;
+  --line: #d7dee3;
+  --line-strong: #c1ccd3;
+  --panel: #ffffff;
+  --panel-soft: #e4eaef;
+  --red-root: #d8e8f5;
+  --red-active: #3f7fb0;
+  --red-hot: #1f5f8f;
+  --amber: #a85a2a;
+  --nav-backdrop: rgba(238, 242, 245, 0.85);
 }
 
 @theme inline {
@@ -36,8 +53,8 @@ html {
 body {
   min-width: 320px;
   background:
-    radial-gradient(circle at 50% -20%, rgba(90, 17, 24, 0.18), transparent 36rem),
-    linear-gradient(180deg, #000000 0%, #030202 42%, #000000 100%);
+    radial-gradient(circle at 50% -20%, color-mix(in srgb, var(--red-hot) 18%, transparent), transparent 36rem),
+    var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
@@ -115,15 +132,69 @@ a {
   mask-image: linear-gradient(to bottom, transparent, black 12%, black 86%, transparent);
 }
 
-.trace-column {
-  background:
-    linear-gradient(180deg, transparent 0%, rgba(122, 30, 38, 0.32) 45%, transparent 100%),
-    repeating-linear-gradient(
-      180deg,
-      transparent 0 16px,
-      rgba(179, 58, 63, 0.3) 16px 18px,
-      transparent 18px 40px
-    );
+.event-flow-line {
+  stroke-dasharray: 5 5;
+  animation: event-flow-dash 1.4s linear infinite;
+}
+
+@keyframes event-flow-dash {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+
+.blueprint-corner {
+  position: relative;
+}
+
+.blueprint-corner::before,
+.blueprint-corner::after,
+.blueprint-corner > .corner-br::before,
+.blueprint-corner > .corner-br::after {
+  position: absolute;
+  content: "";
+  width: 14px;
+  height: 14px;
+  border-color: var(--red-hot);
+  border-style: solid;
+  border-width: 0;
+  opacity: 0.7;
+}
+
+.blueprint-corner::before {
+  top: -1px;
+  left: -1px;
+  border-top-width: 2px;
+  border-left-width: 2px;
+}
+
+.blueprint-corner::after {
+  top: -1px;
+  right: -1px;
+  border-top-width: 2px;
+  border-right-width: 2px;
+}
+
+.blueprint-corner > .corner-br::before {
+  bottom: -1px;
+  left: -1px;
+  top: auto;
+  border-bottom-width: 2px;
+  border-left-width: 2px;
+}
+
+.blueprint-corner > .corner-br::after {
+  bottom: -1px;
+  right: -1px;
+  top: auto;
+  border-bottom-width: 2px;
+  border-right-width: 2px;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
 }
 
 @media (prefers-reduced-motion: reduce) {

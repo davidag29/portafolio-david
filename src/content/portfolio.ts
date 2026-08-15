@@ -1,12 +1,13 @@
 export type Locale = "es" | "en";
 
 export type Project = {
-  id: string;
+  tag: string;
   name: string;
   problem: string;
   solution: string;
   stack: string[];
   demoLabel: string;
+  detail?: "eventFlow" | "messagingFlow";
 };
 
 export type ExperienceItem = {
@@ -31,12 +32,25 @@ type PortfolioCopy = {
     body: string;
     primaryCta: string;
     secondaryCta: string;
-    location: string;
+    specs: string[];
   };
-  codeColumns: {
-    title: string;
-    lines: string[];
-  }[];
+  eventFlow: {
+    kicker: string;
+    externalLabel: string;
+    externalSystems: string[];
+    internalLabel: string;
+    queueLabel: string;
+    hub: string;
+    channels: string[];
+  };
+  messagingFlow: {
+    kicker: string;
+    externalLabel: string;
+    externalSystems: string[];
+    queueLabel: string;
+    hub: string;
+    channels: string[];
+  };
   projects: {
     kicker: string;
     title: string;
@@ -68,7 +82,7 @@ type PortfolioCopy = {
 export const portfolioCopy: Record<Locale, PortfolioCopy> = {
   es: {
     nav: {
-      projects: "Proyectos",
+      projects: "Trabajo",
       stack: "Stack",
       experience: "Experiencia",
       contact: "Contacto",
@@ -78,63 +92,83 @@ export const portfolioCopy: Record<Locale, PortfolioCopy> = {
       eyebrow: "const developer = 'builder'",
       name: "David Aguilar",
       role: "Full Stack · Laravel/Node.js · IA aplicada",
-      body: "5+ anos construyendo aplicaciones web, APIs y sistemas empresariales con PHP/Laravel y Node.js. Aplico IA (MCP, agentes, OCR) bajo reglas de arquitectura, seguridad y calidad, no como moda.",
+      body: "5+ años construyendo aplicaciones web, APIs y sistemas empresariales con PHP/Laravel y Node.js. Aplico IA (MCP, agentes, OCR) bajo reglas de arquitectura, seguridad y calidad, no como moda.",
       primaryCta: "Ver proyectos",
       secondaryCta: "Hablemos",
-      location: "CDMX, Mexico | UTC-6",
+      specs: ["5+ años", "PHP · Laravel · Node.js", "Ciudad Madero, Tamaulipas | UTC-6"],
     },
-    codeColumns: [
-      {
-        title: "~/repos/portfolio",
-        lines: ["src/", "app/", "page.tsx", "components/", "content/", "README.md"],
-      },
-      {
-        title: "~/deploy.log",
-        lines: [
-          "12:01 iniciando build",
-          "12:02 generando estaticos",
-          "12:03 lint ok",
-          "12:04 deploy exitoso",
-        ],
-      },
-      {
-        title: "~/api/endpoints",
-        lines: ["GET /api/health", "GET /api/projects", "POST /api/contact", "GET /api/stack"],
-      },
-      {
-        title: "~/git/commits",
-        lines: ["feat: nuevo proyecto", "refactor: rutas api", "chore: performance", "docs: actualiza readme"],
-      },
-    ],
+    eventFlow: {
+      kicker: "Así funciona",
+      externalLabel: "Eventos externos",
+      externalSystems: ["Portal de candidatos", "Evaluaciones", "Verificaciones", "Soporte"],
+      internalLabel: "Evento interno",
+      queueLabel: "Cola de trabajo",
+      hub: "Motor de notificaciones",
+      channels: ["In-app", "Correo", "WhatsApp", "Web push"],
+    },
+    messagingFlow: {
+      kicker: "Así funciona",
+      externalLabel: "Productos",
+      externalSystems: ["Portal de candidatos", "Evaluaciones", "Verificaciones", "Soporte"],
+      queueLabel: "Registry / Resolver",
+      hub: "API MultiMensajería",
+      channels: ["Conversación actualizada"],
+    },
     projects: {
-      kicker: "Proyectos destacados",
+      kicker: "Lo que he construido",
       title: "Trabajo que se entiende por el problema que resuelve.",
       allLabel: "Ver todos",
       problemLabel: "Problema",
-      solutionLabel: "Solucion",
+      solutionLabel: "Solución",
       items: [
         {
-          id: "01",
+          tag: "Arquitectura",
           name: "Sistema de notificaciones end-to-end",
-          problem: "Cada producto del ecosistema (LISET, MIRA, EVIA, AURA, Servicios de Apoyo) necesitaba notificar a usuarios sin duplicar logica.",
-          solution: "Disene el sistema de notificaciones de Core desde cero (catalogo de eventos, colas de trabajo, deduplicacion idempotente, tiempo real via websockets, blacklist) y lo integre de forma transversal en los 5 productos.",
+          problem: "Cada producto del ecosistema necesitaba avisar a sus usuarios por distintos canales (in-app, correo, WhatsApp, push), sin duplicar notificaciones ni fallar en cascada si un canal no tenía destinatario.",
+          solution: "Diseñé un módulo centralizado con dos vías de entrada (eventos internos y externos vía cola), un catálogo dirigido por datos que resuelve canales y plantillas por evento, y un orquestador con idempotencia por hash SHA-256 (más deduplicación por ventana de tiempo para WhatsApp) y degradación por canal sin tumbar la notificación completa.",
           stack: ["Laravel", "WebSockets", "Colas de trabajo"],
           demoLabel: "Detalles",
+          detail: "eventFlow",
         },
         {
-          id: "02",
-          name: "Mensajeria multi-app (WhatsApp)",
-          problem: "Cada producto necesitaba su propio chat con clientes/candidatos, duplicando esfuerzo de desarrollo.",
-          solution: "Generalice el chat de Servicios de Apoyo en una arquitectura de mensajeria reutilizable, con bandeja unificada de contactos, adjuntos (audio, imagenes, archivos), y la integre en MIRA y LISET.",
+          tag: "Mensajería",
+          name: "Mensajería multi-app (WhatsApp)",
+          problem: "Cuatro productos necesitaban chat con sus propios usuarios finales, cada uno con su entidad raíz y reglas de acceso propias — resolviendo el mismo problema de mensajería cuatro veces.",
+          solution: "Extraje una única API parametrizada por producto (Strategy + Registry): el controlador no conoce ningún producto, solo delega a través de un contrato común. Agregué contratos opcionales por composición (no herencia) para funcionalidades que no todas las apps necesitan, y errores de negocio tipados con reason codes explícitos (ej. la ventana de 24h de WhatsApp Business).",
           stack: ["Laravel", "React", "WebSockets"],
+          demoLabel: "Detalles",
+          detail: "messagingFlow",
+        },
+        {
+          tag: "IA & Auth",
+          name: "Auth con OCR e IA (portal de candidatos)",
+          problem: "El registro manual de candidatos en el portal era lento y propenso a errores de captura.",
+          solution: "Construí el login/registro del portal de candidatos con recuperación de contraseña y registro semi-automático: el CV se procesa con OCR vía IA para prellenar los datos.",
+          stack: ["Laravel", "OpenAI", "OCR"],
           demoLabel: "Detalles",
         },
         {
-          id: "03",
-          name: "Auth con OCR e IA (LISET-MIRA)",
-          problem: "El registro manual de candidatos en el portal era lento y propenso a errores de captura.",
-          solution: "Construi el login/registro del portal de candidatos con recuperacion de contrasena y registro semi-automatico: el CV se procesa con OCR via IA para prellenar los datos.",
-          stack: ["Laravel", "OpenAI", "OCR"],
+          tag: "Comercial",
+          name: "Módulo de acceso/comercial",
+          problem: "Configurar paquetes, precios y créditos por empresa/sucursal se hacía de forma manual y desordenada.",
+          solution: "Construí el CRUD de departamentos, catálogo de servicios, paquetes, plantillas, adquisiciones y créditos, con soporte de precios por empresa, cliente, categoría y producto.",
+          stack: ["Laravel", "PostgreSQL"],
+          demoLabel: "Detalles",
+        },
+        {
+          tag: "Contable",
+          name: "ERP contable multi-tenant",
+          problem: "Facturación, inventario y reportes fiscales gestionados de forma manual.",
+          solution: "API RESTful multi-tenant con roles y permisos, y reportes financieros automatizados.",
+          stack: ["Node.js", "Express", "SQL Server"],
+          demoLabel: "Detalles",
+        },
+        {
+          tag: "Salud",
+          name: "Sistema de citas RIS",
+          problem: "Agenda manual para una clínica de radiología, sin trazabilidad de citas.",
+          solution: "Sistema de gestión de citas con seguimiento de estados para el área de radiología.",
+          stack: ["JavaServer Faces", "SQL"],
           demoLabel: "Detalles",
         },
       ],
@@ -145,7 +179,7 @@ export const portfolioCopy: Record<Locale, PortfolioCopy> = {
       groups: [
         { label: "Backend", items: ["PHP", "Laravel", "Blade", "Node.js", "Express", "PostgreSQL", "MySQL", "SQL Server"] },
         { label: "Arquitectura", items: ["APIs REST", "Microservicios", "Multi-tenant", "Colas de trabajo", "Tiempo real", "Redis", "Docker"] },
-        { label: "IA & Agentes", items: ["OpenAI", "DeepSeek", "MCP", "Sistemas multiagente", "OCR", "Ingenieria asistida por IA"] },
+        { label: "IA & Agentes", items: ["OpenAI", "DeepSeek", "MCP", "Sistemas multiagente", "OCR", "Ingeniería asistida por IA"] },
       ],
     },
     experience: {
@@ -156,25 +190,25 @@ export const portfolioCopy: Record<Locale, PortfolioCopy> = {
           role: "Desarrollador Full Stack",
           company: "RRHH Ingenia",
           period: "11/2025 - Actualidad",
-          highlight: "Dueno de facto del sistema de notificaciones end-to-end de Core (colas, tiempo real, deduplicacion) integrado en 5 productos; generalice la mensajeria multi-app y desarrolle el modulo de acceso/comercial (paquetes, creditos, precios).",
+          highlight: "Responsable principal del sistema de notificaciones end-to-end (colas, tiempo real, deduplicación) integrado en todos los productos del ecosistema; generalicé la mensajería multi-app y desarrollé el módulo de acceso/comercial (paquetes, créditos, precios).",
         },
         {
           role: "Desarrollador",
           company: "NextGen Technologies",
           period: "05/2022 - 05/2025",
-          highlight: "ERP contable con API RESTful multi-tenant en Node.js/Express; sistema de gestion para gasolinera con facturacion automatica.",
+          highlight: "ERP contable con API RESTful multi-tenant en Node.js/Express; sistema de gestión para gasolinera con facturación automática.",
         },
         {
           role: "Desarrollador Junior",
           company: "DC Prosoft S.A. de C.V.",
           period: "01/2021 - 04/2022",
-          highlight: "Sistema de certificacion educativa con JSF y sistema de gestion de citas para clinica de radiologia (RIS).",
+          highlight: "Sistema de certificación educativa con JSF y sistema de gestión de citas para clínica de radiología (RIS).",
         },
         {
-          role: "Soporte tecnico",
+          role: "Soporte técnico",
           company: "DC Prosoft S.A. de C.V.",
           period: "03/2019 - 01/2021",
-          highlight: "Atencion a usuarios, capacitacion funcional y seguimiento de incidencias operativas.",
+          highlight: "Atención a usuarios, capacitación funcional y seguimiento de incidencias operativas.",
         },
       ],
     },
@@ -205,7 +239,7 @@ export const portfolioCopy: Record<Locale, PortfolioCopy> = {
   },
   en: {
     nav: {
-      projects: "Projects",
+      projects: "Work",
       stack: "Stack",
       experience: "Experience",
       contact: "Contact",
@@ -218,55 +252,80 @@ export const portfolioCopy: Record<Locale, PortfolioCopy> = {
       body: "5+ years building web applications, APIs, and enterprise systems with PHP/Laravel and Node.js. I apply AI (MCP, agents, OCR) under architecture, security, and quality rules, not as a trend.",
       primaryCta: "View projects",
       secondaryCta: "Contact",
-      location: "Mexico City, Mexico | UTC-6",
+      specs: ["5+ years", "PHP · Laravel · Node.js", "Ciudad Madero, Tamaulipas | UTC-6"],
     },
-    codeColumns: [
-      {
-        title: "~/repos/portfolio",
-        lines: ["src/", "app/", "page.tsx", "components/", "content/", "README.md"],
-      },
-      {
-        title: "~/deploy.log",
-        lines: ["12:01 starting build", "12:02 generating static pages", "12:03 lint ok", "12:04 deploy ready"],
-      },
-      {
-        title: "~/api/endpoints",
-        lines: ["GET /api/health", "GET /api/projects", "POST /api/contact", "GET /api/stack"],
-      },
-      {
-        title: "~/git/commits",
-        lines: ["feat: new project", "refactor: api routes", "chore: performance", "docs: update readme"],
-      },
-    ],
+    eventFlow: {
+      kicker: "How it works",
+      externalLabel: "External events",
+      externalSystems: ["Candidate portal", "Assessments", "Verifications", "Support"],
+      internalLabel: "Internal event",
+      queueLabel: "Job queue",
+      hub: "Notification engine",
+      channels: ["In-app", "Email", "WhatsApp", "Web push"],
+    },
+    messagingFlow: {
+      kicker: "How it works",
+      externalLabel: "Products",
+      externalSystems: ["Candidate portal", "Assessments", "Verifications", "Support"],
+      queueLabel: "Registry / Resolver",
+      hub: "Multi-messaging API",
+      channels: ["Updated conversation"],
+    },
     projects: {
-      kicker: "Featured work",
+      kicker: "What I've built",
       title: "Work explained by the problem it solves.",
       allLabel: "View all",
       problemLabel: "Problem",
       solutionLabel: "Solution",
       items: [
         {
-          id: "01",
+          tag: "Architecture",
           name: "End-to-end notification system",
-          problem: "Every product in the ecosystem (LISET, MIRA, EVIA, AURA, Support Services) needed to notify users without duplicating logic.",
-          solution: "Designed Core's notification system from scratch (event catalog, job queues, idempotent deduplication, real-time via websockets, blacklist) and integrated it transversally across 5 products.",
+          problem: "Every product in the ecosystem needed to notify its users across different channels (in-app, email, WhatsApp, push), without duplicating notifications or failing entirely when a channel had no valid recipient.",
+          solution: "Designed a centralized module with two entry paths (internal events and external events via queue), a data-driven catalog that resolves channels and templates per event, and an orchestrator with SHA-256 hash idempotency (plus time-window deduplication for WhatsApp) and per-channel degradation that never fails the whole notification.",
           stack: ["Laravel", "WebSockets", "Job queues"],
           demoLabel: "Details",
+          detail: "eventFlow",
         },
         {
-          id: "02",
+          tag: "Messaging",
           name: "Multi-app messaging (WhatsApp)",
-          problem: "Each product needed its own chat with clients/candidates, duplicating development effort.",
-          solution: "Generalized the Support Services chat into a reusable multi-messaging architecture, with a unified contact inbox, attachments (audio, images, files), and integrated it into MIRA and LISET.",
+          problem: "Four products needed chat with their own end users, each with its own root entity and access rules — solving the same messaging problem four times.",
+          solution: "Extracted a single API parameterized by product (Strategy + Registry pattern): the controller knows no specific product, it only delegates through a shared contract. Added optional contracts via composition (not inheritance) for features not every app needs, plus typed business exceptions with explicit reason codes (e.g. WhatsApp Business's 24-hour window rule).",
           stack: ["Laravel", "React", "WebSockets"],
           demoLabel: "Details",
+          detail: "messagingFlow",
         },
         {
-          id: "03",
-          name: "Auth with OCR & AI (LISET-MIRA)",
+          tag: "AI & Auth",
+          name: "Auth with OCR & AI (candidate portal)",
           problem: "Manual candidate registration on the portal was slow and error-prone.",
           solution: "Built the candidate portal's login/registration with password recovery and semi-automatic registration: the resume is processed with AI-powered OCR to pre-fill the form.",
           stack: ["Laravel", "OpenAI", "OCR"],
+          demoLabel: "Details",
+        },
+        {
+          tag: "Commercial",
+          name: "Access/commercial module",
+          problem: "Configuring packages, pricing, and credits per company/branch was manual and disorganized.",
+          solution: "Built the CRUD for departments, service catalog, packages, templates, acquisitions, and credits, with pricing support by company, client, category, and product.",
+          stack: ["Laravel", "PostgreSQL"],
+          demoLabel: "Details",
+        },
+        {
+          tag: "Accounting",
+          name: "Multi-tenant accounting ERP",
+          problem: "Invoicing, inventory, and tax reporting handled manually.",
+          solution: "Multi-tenant RESTful API with roles/permissions and automated financial reporting.",
+          stack: ["Node.js", "Express", "SQL Server"],
+          demoLabel: "Details",
+        },
+        {
+          tag: "Healthcare",
+          name: "RIS appointment system",
+          problem: "Manual scheduling for a radiology clinic, with no appointment traceability.",
+          solution: "Appointment management system with status tracking for the radiology department.",
+          stack: ["JavaServer Faces", "SQL"],
           demoLabel: "Details",
         },
       ],
@@ -288,7 +347,7 @@ export const portfolioCopy: Record<Locale, PortfolioCopy> = {
           role: "Full Stack Developer",
           company: "RRHH Ingenia",
           period: "11/2025 - Present",
-          highlight: "De facto owner of Core's end-to-end notification system (queues, real-time, deduplication) integrated across 5 products; generalized the multi-app messaging layer and built the access/commercial module (packages, credits, pricing).",
+          highlight: "Lead developer for the end-to-end notification system (queues, real-time, deduplication) integrated across every product in the ecosystem; generalized the multi-app messaging layer and built the access/commercial module (packages, credits, pricing).",
         },
         {
           role: "Developer",

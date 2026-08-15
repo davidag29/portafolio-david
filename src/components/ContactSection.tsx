@@ -1,3 +1,5 @@
+import { Reveal } from "./Reveal";
+
 type ContactSectionProps = {
   copy: {
     kicker: string;
@@ -15,10 +17,10 @@ export function ContactSection({ copy }: ContactSectionProps) {
   return (
     <section
       id="contact"
-      className="relative z-10 border-t border-[var(--line)] bg-black px-5 py-16 sm:px-8"
+      className="relative z-10 border-t border-[var(--line)] bg-[var(--background)] px-5 py-16 sm:px-8"
     >
       <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1fr_0.9fr]">
-        <div>
+        <Reveal>
           <p className="tech-display text-sm font-black text-[var(--red-hot)]">
             &gt; {copy.kicker}
           </p>
@@ -30,13 +32,13 @@ export function ContactSection({ copy }: ContactSectionProps) {
           </p>
           <a
             href={emailLink}
-            className="tech-display mt-9 inline-flex h-12 items-center border border-[var(--red-active)] bg-[var(--red-root)] px-5 text-sm font-black text-[var(--foreground)] transition hover:bg-[var(--red-active)]"
+            className="tech-display mt-9 inline-flex h-12 items-center border border-[var(--red-active)] bg-[var(--red-root)] px-5 text-sm font-black text-[var(--foreground)] transition active:scale-95 hover:bg-[var(--red-active)]"
           >
             {copy.cta} <span className="ml-3">-&gt;</span>
           </a>
-        </div>
+        </Reveal>
 
-        <div className="border-y border-[var(--line)]">
+        <Reveal delay={100} className="border-y border-[var(--line)]">
           <p className="tech-display border-b border-[var(--line)] py-4 text-xs font-black uppercase text-[var(--dim)]">
             ~/contact.channels
           </p>
@@ -47,7 +49,7 @@ export function ContactSection({ copy }: ContactSectionProps) {
                   href={link.href}
                   target={link.href.startsWith("http") ? "_blank" : undefined}
                   rel={link.href.startsWith("http") ? "noreferrer" : undefined}
-                  className="grid gap-2 py-5 transition hover:bg-[rgba(90,17,24,0.16)] sm:grid-cols-[120px_1fr_auto]"
+                  className="grid gap-2 py-5 transition hover:bg-[var(--panel-soft)] sm:grid-cols-[120px_1fr_auto]"
                 >
                   <span className="tech-display text-xs font-black uppercase text-[var(--red-hot)]">
                     {link.label}
@@ -63,7 +65,7 @@ export function ContactSection({ copy }: ContactSectionProps) {
           <p className="tech-display border-t border-[var(--line)] py-4 text-xs text-[var(--dim)]">
             {copy.response}
           </p>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
