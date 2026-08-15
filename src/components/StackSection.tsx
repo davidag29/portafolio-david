@@ -28,9 +28,12 @@ export function StackSection({ copy }: StackSectionProps) {
             <h3 className="tech-display text-sm font-black uppercase text-[var(--red-hot)]">
               {group.label}
             </h3>
-            <ul className="mt-4 space-y-3">
+            <ul className="mt-4 flex flex-wrap gap-2">
               {group.items.map((item) => (
-                <li key={item} className="text-sm text-[var(--muted)]">
+                <li
+                  key={item}
+                  className="tech-display cursor-default border border-[var(--line-strong)] px-2.5 py-1 text-[11px] font-bold uppercase text-[var(--muted)] transition hover:border-[var(--red-hot)] hover:bg-[var(--red-root)] hover:text-[var(--foreground)]"
+                >
                   {item}
                 </li>
               ))}

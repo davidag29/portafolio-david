@@ -1,3 +1,4 @@
+import { MailtoButton } from "./MailtoButton";
 import { Reveal } from "./Reveal";
 
 type ContactSectionProps = {
@@ -30,12 +31,7 @@ export function ContactSection({ copy }: ContactSectionProps) {
           <p className="mt-6 max-w-2xl text-base leading-8 text-[var(--muted)]">
             {copy.body}
           </p>
-          <a
-            href={emailLink}
-            className="tech-display mt-9 inline-flex h-12 items-center border border-[var(--red-active)] bg-[var(--red-root)] px-5 text-sm font-black text-[var(--foreground)] transition active:scale-95 hover:bg-[var(--red-active)]"
-          >
-            {copy.cta} <span className="ml-3">-&gt;</span>
-          </a>
+          <MailtoButton href={emailLink} label={copy.cta} />
         </Reveal>
 
         <Reveal delay={100} className="border-y border-[var(--line)]">
