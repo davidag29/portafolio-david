@@ -48,3 +48,22 @@ Desplegado en [Vercel](https://vercel.com). Cada push a `main` dispara un nuevo 
 
 [![GitHub](https://img.shields.io/badge/GitHub-davidag29-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/davidag29)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-davidaguilar--rdz-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/davidaguilar-rdz)
+
+## Formulario de contacto
+
+Copia `.env.example` a `.env.local` y configura `RESEND_API_KEY`, `CONTACT_TO_EMAIL`
+y, opcionalmente, `CONTACT_FROM_EMAIL` (por defecto `onboarding@resend.dev`). En producción,
+usa un remitente de un dominio verificado en Resend y configura las mismas variables en el hosting.
+El formulario envía a `POST /api/contact`, valida los campos en el servidor y utiliza la API HTTP de Resend.
+El destinatario permanece en el servidor. Sin clave o destinatario, la ruta devuelve 503
+`not_configured` y ofrece el enlace de LinkedIn; nunca muestra un envío exitoso ficticio.
+
+Los textos ES/EN se editan en `src/content/portfolio.ts`. El tema sigue la preferencia del sistema
+hasta que se elige uno; tema e idioma se guardan en el navegador. Las animaciones respetan
+`prefers-reduced-motion`.
+
+Para comprobar la validación y la integración de correo sin realizar envíos reales:
+
+```bash
+node --test tests/contact.test.mjs
+```

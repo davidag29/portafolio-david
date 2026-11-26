@@ -1,64 +1,47 @@
 import type { Metadata } from "next";
-import { Chakra_Petch, Geist, Geist_Mono } from "next/font/google";
-import Script from "next/script";
+import { Barlow_Condensed, Overpass, Overpass_Mono } from "next/font/google";
+import { portfolioCopy } from "@/content/portfolio";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const chakraPetch = Chakra_Petch({
+const display = Barlow_Condensed({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["600", "700"],
+  weight: ["700", "800"],
+  display: "swap",
 });
-
+const body = Overpass({
+  variable: "--font-body",
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
+  display: "swap",
+});
+const mono = Overpass_Mono({
+  variable: "--font-mono",
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
+  display: "swap",
+});
+const { title, description } = portfolioCopy.es.meta;
 export const metadata: Metadata = {
-  title: "David Aguilar | Desarrollador Full Stack",
-  description:
-    "Portafolio de David Aguilar, desarrollador Full Stack enfocado en productos web rapidos, mantenibles y orientados a problemas reales.",
-  openGraph: {
-    title: "David Aguilar | Desarrollador Full Stack",
-    description:
-      "Portafolio de David Aguilar, desarrollador Full Stack con experiencia en PHP/Laravel, Node.js e IA aplicada.",
-    type: "website",
-    locale: "es_MX",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "David Aguilar | Desarrollador Full Stack",
-    description:
-      "Portafolio de David Aguilar, desarrollador Full Stack con experiencia en PHP/Laravel, Node.js e IA aplicada.",
-  },
+  title,
+  description,
+  openGraph: { title, description, type: "website", locale: "es_MX" },
+  twitter: { card: "summary_large_image", title, description },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+// Runs synchronously before the body is painted, including when storage is unavailable.
+const initialize = `(function(){var d=document.documentElement,t,l;try{t=localStorage.getItem('theme');l=localStorage.getItem('locale')}catch(e){}d.dataset.theme=t==='light'||t==='dark'?t:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';d.lang=l==='en'?'en':'es'})()`;
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
       lang="es"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} ${chakraPetch.variable} h-full antialiased`}
+      className={`${display.variable} ${body.variable} ${mono.variable}`}
     >
-      <body className="min-h-full flex flex-col">
-        <Script
-          id="theme-init"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem("theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}})();`,
-          }}
-        />
-        {children}
-      </body>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: initialize }} />
+      </head>
+      <body>{children}</body>
     </html>
   );
 }

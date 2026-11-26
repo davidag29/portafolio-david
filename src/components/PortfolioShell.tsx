@@ -1,88 +1,61 @@
 "use client";
 
-import { useEffect, useMemo, useState, type MouseEvent } from "react";
+import { useSyncExternalStore } from "react";
 import { portfolioCopy, type Locale } from "@/content/portfolio";
-import { ContactSection } from "./ContactSection";
-import { ExperienceSection } from "./ExperienceSection";
-import { Hero } from "./Hero";
 import { Navbar } from "./Navbar";
+import { Hero } from "./Hero";
 import { ProjectShowcase } from "./ProjectShowcase";
+import { ExperienceSection } from "./ExperienceSection";
 import { StackSection } from "./StackSection";
+import { PersonalSection } from "./PersonalSection";
+import { ContactSection } from "./ContactSection";
 
-type Theme = "dark" | "light";
+function subscribe(callback: () => void) {
+  function onStorage(event: StorageEvent) {
+    if (event.key !== "locale" && event.key !== null) return;
+    document.documentElement.lang = event.newValue === "en" ? "en" : "es";
+    callback();
+  }
+  window.addEventListener("portfolio-locale", callback);
+  window.addEventListener("storage", onStorage);
+  return () => {
+    window.removeEventListener("portfolio-locale", callback);
+    window.removeEventListener("storage", onStorage);
+  };
+}
+
+// The layout's synchronous script restores the saved language before hydration.
+const getLocale = (): Locale => (document.documentElement.lang === "en" ? "en" : "es");
+const serverLocale = (): Locale => "es";
 
 export function PortfolioShell() {
-  const [locale, setLocale] = useState<Locale>("es");
-  const [theme, setTheme] = useState<Theme>("dark");
-  const copy = useMemo(() => portfolioCopy[locale], [locale]);
-  const nextLocale: Locale = locale === "es" ? "en" : "es";
+  const locale = useSyncExternalStore(subscribe, getLocale, serverLocale);
+  const copy = portfolioCopy[locale];
 
-  useEffect(() => {
-    if (document.documentElement.dataset.theme === "light") {
-      setTheme("light");
-    }
-  }, []);
-
-  const toggleTheme = (event: MouseEvent<HTMLButtonElement>) => {
-    const next: Theme = theme === "dark" ? "light" : "dark";
-    const applyTheme = () => {
-      setTheme(next);
-      document.documentElement.setAttribute("data-theme", next);
-      localStorage.setItem("theme", next);
-    };
-
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!document.startViewTransition || prefersReducedMotion) {
-      applyTheme();
-      return;
-    }
-
-    const x = event.clientX;
-    const y = event.clientY;
-    const endRadius = Math.hypot(
-      Math.max(x, window.innerWidth - x),
-      Math.max(y, window.innerHeight - y),
-    );
-
-    const transition = document.startViewTransition(applyTheme);
-
-    transition.ready.then(() => {
-      document.documentElement.animate(
-        {
-          clipPath: [
-            `circle(0px at ${x}px ${y}px)`,
-            `circle(${endRadius}px at ${x}px ${y}px)`,
-          ],
-        },
-        {
-          duration: 550,
-          easing: "ease-in-out",
-          pseudoElement: "::view-transition-new(root)",
-        },
-      );
-    });
-  };
+  function changeLocale(next: Locale) {
+    document.documentElement.lang = next;
+    try {
+      localStorage.setItem("locale", next);
+    } catch {}
+    window.dispatchEvent(new Event("portfolio-locale"));
+  }
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[var(--background)] text-[var(--foreground)]">
-      <div className="scanline" />
-      <Navbar
-        availability={copy.availability}
-        localeLabel={nextLocale.toUpperCase()}
-        nav={copy.nav}
-        onToggleLocale={() => setLocale(nextLocale)}
-        theme={theme}
-        onToggleTheme={toggleTheme}
-      />
-      <Hero copy={copy.hero} />
-      <ProjectShowcase
-        copy={copy.projects}
-        eventFlow={copy.eventFlow}
-        messagingFlow={copy.messagingFlow}
-      />
-      <StackSection copy={copy.stack} />
-      <ExperienceSection copy={copy.experience} />
-      <ContactSection copy={copy.contact} />
-    </main>
+    <>
+      <a className="skip-link" href="#contenido">
+        {copy.ui.skip}
+      </a>
+      <Navbar copy={copy} locale={locale} onLocale={changeLocale} />
+      <main id="contenido" tabIndex={-1}>
+        <div className="container">
+          <Hero copy={copy} />
+          <ProjectShowcase copy={copy.work} />
+          <ExperienceSection copy={copy.career} />
+          <StackSection copy={copy.stack} />
+          <PersonalSection copy={copy.personal} />
+        </div>
+        <ContactSection copy={copy.contact} />
+      </main>
+    </>
   );
 }
